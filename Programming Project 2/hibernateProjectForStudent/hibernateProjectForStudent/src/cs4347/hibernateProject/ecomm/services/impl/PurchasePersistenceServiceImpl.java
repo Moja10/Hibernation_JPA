@@ -1,6 +1,6 @@
 package cs4347.hibernateProject.ecomm.services.impl;
 
-import java.sql.ResultSet;
+//import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import basicJPA.entity.Department;
 import cs4347.hibernateProject.ecomm.entity.Purchase;
 import cs4347.hibernateProject.ecomm.services.PurchasePersistenceService;
 import cs4347.hibernateProject.ecomm.services.PurchaseSummary;
@@ -89,6 +88,10 @@ public class PurchasePersistenceServiceImpl implements PurchasePersistenceServic
 		if((customerID < 0)){
 			throw new DAOException("Invalid customer ID provided");
 		}
+		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.customerID = :custID")
+				.setParameter("custID", customerID)
+				.getResultList();
+		/*
 		List<Purchase> listofpurch = new ArrayList<Purchase>();
 		ResultSet rs = (ResultSet) em.createQuery("from Purchase as p where p.customerID = :custID")
 				.setParameter("custID", customerID)
@@ -102,24 +105,58 @@ public class PurchasePersistenceServiceImpl implements PurchasePersistenceServic
 			// Fill Purchase object with values from ResultSet
 			purch.setId(rs.getLong("ID"));
 			//purch.setProduct(rs.getLong("productID"));
+			purch.setProduct(rs.getObject("product"));
 			//purch.setCustomer(rs.getLong("customerID"));
 			purch.setPurchaseAmount(rs.getDouble("purchaseAmount"));
 			purch.setPurchaseDate(rs.getDate("purchaseDate"));
 			// Add purch object to result arraylist
 			listofpurch.add(purch);
 		}
+		*/
 		return listofpurch;
 	}
 
 	@Override
 	public List<Purchase> retrieveForProductID(Long productID) throws SQLException, DAOException
 	{
-		return null;
+		if((productID < 0)){
+			throw new DAOException("Invalid product ID provided");
+		}
+		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.productID = :prodID")
+				.setParameter("prodID", productID)
+				.getResultList();
+		
+		return listofpurch;
 	}
 
 	@Override
 	public PurchaseSummary retrievePurchaseSummary(Long customerID) throws SQLException, DAOException
 	{
-		return null;
+		List<Purchase> PurchSumm = new ArrayList<Purchase>();
+		PurchSumm = retrieveForCustomerID(customerID);
+		//Return min, max, and average purchase amounts for given customer id
+		PurchaseSummary result = new PurchaseSummary();
+		double minimum = 999999999999.99;
+		double maximum = 0;
+		double sum = 0;
+		for(Purchase purch : PurchSumm){
+			// Grab the currentValue once to use throughout this loop iteration
+			double currentValue = purch.getPurchaseAmount();
+			if(currentValue < minimum){
+				minimum = currentValue;
+			}
+			if(currentValue > maximum){
+				maximum = currentValue;
+			}
+			sum += currentValue;
+		}
+		double avg = (sum / PurchSumm.size());
+		
+		// PurchaseSummary attributes are floats, casts must be done
+		result.minPurchase = (float)minimum;
+		result.maxPurchase = (float)maximum;
+		result.avgPurchase = (float)avg;
+		
+		return result;
 	}
 }
