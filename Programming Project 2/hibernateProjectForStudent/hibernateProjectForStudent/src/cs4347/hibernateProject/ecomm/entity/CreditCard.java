@@ -6,7 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-
+@Entity
+@Table(name = "creditcard")
 public class CreditCard 
 {
 	private Long id;

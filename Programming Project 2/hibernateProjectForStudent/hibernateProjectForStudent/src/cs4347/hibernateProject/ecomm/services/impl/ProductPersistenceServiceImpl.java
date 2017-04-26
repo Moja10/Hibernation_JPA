@@ -18,34 +18,86 @@ public class ProductPersistenceServiceImpl implements ProductPersistenceService
 	@Override
 	public void create(Product product) throws SQLException, DAOException
 	{
+		try {
+			em.getTransaction().begin();
+			em.persist(product);
+			em.getTransaction().commit();
+		}
+		catch (Exception ex) {
+			em.getTransaction().rollback();
+			throw ex;
+		}
 	}
 
 	@Override
 	public Product retrieve(Long id) throws SQLException, DAOException
 	{
-		return null;
+		try {
+			em.getTransaction().begin();
+			Product prod = em.find(Product.class, id);
+			em.getTransaction().commit();
+			return prod;
+		}
+		catch (Exception ex) {
+			em.getTransaction().rollback();
+			throw ex;
+		}
 	}
 
 	@Override
 	public void update(Product product) throws SQLException, DAOException
 	{
+		try {
+			em.getTransaction().begin();
+			Product p = em.find(Product.class, product.getId());
+			p.setProdName(product.getProdName());
+			p.setProdDescription(product.getProdDescription());
+			em.getTransaction().commit();
+		}
+		catch (Exception ex) {
+			em.getTransaction().rollback();
+			throw ex;
+		}
 	}
 
 	@Override
 	public void delete(Long id) throws SQLException, DAOException
 	{
+		try {
+			em.getTransaction().begin();
+			Product p = (Product)em.find(Product.class, id);
+			em.remove(p);
+			em.getTransaction().commit();
+		}
+		catch (Exception ex) {
+			em.getTransaction().rollback();
+			throw ex;
+			
+			//put in an error check, something like line 83 in sample (DepartmentServiceImpl)
+	}
 	}
 
 	@Override
 	public Product retrieveByUPC(String upc) throws SQLException, DAOException
 	{
-		return null;
+		em.getTransaction().begin();
+		Product prod = (Product)em.createQuery("from Product as p where p.productUPC = :prodUPC")
+				.setParameter("prodUPC", upc)
+				.getResultList();
+		em.getTransaction().commit();
+		return prod;
 	}
 
 	@Override
 	public List<Product> retrieveByCategory(int category) throws SQLException, DAOException
 	{
-		return null;
+		em.getTransaction().begin();
+		List<Product> prod = (List<Product>)em.createQuery("from Product as p where p.product.category = :prodCategory")
+				.setParameter("category", category)
+				.getResultList();
+		em.getTransaction().commit();
+		return prod;
 	}
 
 }
+
