@@ -1,5 +1,7 @@
 package cs4347.hibernateProject.ecomm.entity;
 import java.sql.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -83,7 +85,7 @@ public class Customer
 	{
 		this.email = email;
 	}
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="customer")
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	public Address getAddress()
 	{
 		return address;
@@ -93,7 +95,7 @@ public class Customer
 	{
 		this.address = address;
 	}
-	@OneToOne(fetch=FetchType.LAZY, mappedBy="customer")
+	@OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
 	public CreditCard getCreditCard()
 	{
 		return creditCard;
