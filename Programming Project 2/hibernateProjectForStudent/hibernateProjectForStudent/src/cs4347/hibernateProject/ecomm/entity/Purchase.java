@@ -19,7 +19,7 @@ public class Purchase
 	private double purchaseAmount;
 	private Customer customer;
 	private Product product;
-
+ 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId()
@@ -51,7 +51,7 @@ public class Purchase
 	{
 		this.purchaseAmount = purchaseAmount;
 	}
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="customerID", unique=false)
 	public Customer getCustomer()
 	{
@@ -62,7 +62,7 @@ public class Purchase
 	{
 		this.customer = customer;
 	}
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="productID", unique=false)
 	public Product getProduct()
 	{
