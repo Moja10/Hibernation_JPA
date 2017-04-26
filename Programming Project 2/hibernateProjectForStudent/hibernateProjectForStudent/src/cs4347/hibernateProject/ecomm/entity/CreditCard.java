@@ -1,4 +1,11 @@
 package cs4347.hibernateProject.ecomm.entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.sql.Date;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 
 public class CreditCard 
 {
@@ -8,6 +15,8 @@ public class CreditCard
 	private String expDate;
 	private String securityCode;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId()
 	{
 		return id;

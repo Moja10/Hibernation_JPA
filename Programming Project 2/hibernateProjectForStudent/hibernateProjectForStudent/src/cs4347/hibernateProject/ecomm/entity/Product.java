@@ -1,5 +1,13 @@
 package cs4347.hibernateProject.ecomm.entity;
+import java.sql.Date;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "purchase")
 public class Product 
 {
 	private Long id;
@@ -7,7 +15,9 @@ public class Product
 	private String prodDescription;
 	private int prodCategory;
 	private String prodUPC;
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId()
 	{
 		return id;
