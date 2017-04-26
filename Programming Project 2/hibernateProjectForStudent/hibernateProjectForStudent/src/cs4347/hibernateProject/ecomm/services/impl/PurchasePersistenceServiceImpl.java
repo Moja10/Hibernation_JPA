@@ -91,28 +91,7 @@ public class PurchasePersistenceServiceImpl implements PurchasePersistenceServic
 		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.customerID = :custID")
 				.setParameter("custID", customerID)
 				.getResultList();
-		/*
-		List<Purchase> listofpurch = new ArrayList<Purchase>();
-		ResultSet rs = (ResultSet) em.createQuery("from Purchase as p where p.customerID = :custID")
-				.setParameter("custID", customerID)
-				.getResultList();
-		if(!rs.next()){
-				return null;
-		}
-		while(rs.next()){
-			// Create a new Purchase object
-			Purchase purch = new Purchase();
-			// Fill Purchase object with values from ResultSet
-			purch.setId(rs.getLong("ID"));
-			//purch.setProduct(rs.getLong("productID"));
-			purch.setProduct(rs.getObject("product"));
-			//purch.setCustomer(rs.getLong("customerID"));
-			purch.setPurchaseAmount(rs.getDouble("purchaseAmount"));
-			purch.setPurchaseDate(rs.getDate("purchaseDate"));
-			// Add purch object to result arraylist
-			listofpurch.add(purch);
-		}
-		*/
+		
 		return listofpurch;
 	}
 
