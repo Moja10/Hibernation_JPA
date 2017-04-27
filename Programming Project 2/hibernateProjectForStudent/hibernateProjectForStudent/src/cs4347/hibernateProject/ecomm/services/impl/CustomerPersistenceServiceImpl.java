@@ -60,9 +60,9 @@ public class CustomerPersistenceServiceImpl implements CustomerPersistenceServic
 	@Override
 	public List<Customer> retrieveByZipCode(String zipCode) throws SQLException, DAOException
 	{
-		if((Integer.parseInt(zipCode) < 0 || Integer.parseInt(zipCode) > 99999)){
-			throw new DAOException("Invalid product ID provided");
-		}
+//		if((Integer.parseInt(zipCode) < 0 || Integer.parseInt(zipCode) > 99999)){
+//			throw new DAOException("Invalid product ID provided");
+//		}
 		List<Customer> custs = (List<Customer>)em.createQuery("from Customer as c where c.address.zipcode = :zip")
 		.setParameter("zip", zipCode)
 		.getResultList();
