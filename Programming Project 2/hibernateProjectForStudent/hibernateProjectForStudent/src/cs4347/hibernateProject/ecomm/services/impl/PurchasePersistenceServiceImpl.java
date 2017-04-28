@@ -88,7 +88,7 @@ public class PurchasePersistenceServiceImpl implements PurchasePersistenceServic
 		if((customerID < 0)){
 			throw new DAOException("Invalid customer ID provided");
 		}
-		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.customerID = :custID")
+		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.customer.id = :custID")
 				.setParameter("custID", customerID)
 				.getResultList();
 		
@@ -101,7 +101,7 @@ public class PurchasePersistenceServiceImpl implements PurchasePersistenceServic
 		if((productID < 0)){
 			throw new DAOException("Invalid product ID provided");
 		}
-		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.productID = :prodID")
+		List<Purchase> listofpurch = em.createQuery("from Purchase as p where p.product.id = :prodID")
 				.setParameter("prodID", productID)
 				.getResultList();
 		
