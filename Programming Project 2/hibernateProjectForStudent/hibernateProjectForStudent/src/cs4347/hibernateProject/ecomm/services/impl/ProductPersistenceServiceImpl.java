@@ -83,7 +83,7 @@ public class ProductPersistenceServiceImpl implements ProductPersistenceService
 		em.getTransaction().begin();
 		Product prod = (Product)em.createQuery("from Product as p where p.prodUPC = :prodUPC")
 				.setParameter("prodUPC", upc)
-				.getResultList();
+				.getSingleResult();
 		em.getTransaction().commit();
 		return prod;
 	}
